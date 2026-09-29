@@ -13,27 +13,27 @@ if ($conn->connect_error) {
 }
 
 // SQL query template
-$sql = "INSERT INTO usuario (idusuario, nome_usuario, senha_usuario, email_usuario) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO usuario ( nome_usuario, senha_usuario, email_usuario) VALUES ( ?, ?, ?)";
 
 // Prepare the SQL query template
 if($stmt = $conn->prepare($sql)) {
   // Bind parameters
-  $stmt->bind_param("sss", $idusuario, $nome_usuario, $senha_usuario, $email_usuario);
+  $stmt->bind_param("sss",  $nome_usuario, $senha_usuario, $email_usuario);
 
   // Set parameters and execute
-  $idusuario = 1;
+
   $nome_usuario = "John";
   $senha_usuario = "password123";
   $email_usuario = "john@example.com";
   $stmt->execute();
 
-  $idusuario = 2;
+  
   $nome_usuario = "Mary";
   $senha_usuario = "password456";
   $email_usuario = "mary@example.com";
   $stmt->execute();
 
-  $idusuario = 3;
+ 
   $nome_usuario = "Julie";
   $senha_usuario = "password789";
   $email_usuario = "julie@example.com";
@@ -42,68 +42,66 @@ if($stmt = $conn->prepare($sql)) {
 } else {
   echo "Erro: " . $sql . "<br>" . $conn->error;
 }
-
-$sql = "INSERT INTO pedido (idpedido, data_pedido, valor_total_pedido, forma_pagamento) VALUES (?, ?, ?, ?)";
-
-// Prepare the SQL query template
-if($stmt = $conn->prepare($sql)) {
-  // Bind parameters
-  $stmt->bind_param("sss", $idpedido, $data_pedido, $valor_total_pedido, $forma_pagamento);
-
-  // Set parameters and execute
-  $idpedido = 1;
-  $data_pedido = "2023-01-01";
-  $valor_total_pedido = 100.00;
-  $forma_pagamento = "john@example.com";
-  $stmt->execute();
-
-  $idpedido = 2;
-  $data_pedido = "2023-01-02";
-  $valor_total_pedido = 200.00;
-  $forma_pagamento = "mary@example.com";
-  $stmt->execute();
-
-  $idpedido = 3;
-  $data_pedido = "2023-01-03";
-  $valor_total_pedido = 300.00;
-  $forma_pagamento = "julie@example.com";
-  $stmt->execute(); 
- 
-  echo "Sucesso!";
-} else {
-  echo "Erro: " . $sql . "<br>" . $conn->error;
-}
-$sql = "INSERT INTO produto (idproduto, nome_produto, preco_produto, foto_produto) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO pedido (usuario_idusuario, data_pedido, valor_total_pedido, forma_pagamento) VALUES (?, ?, ?, ?)";
 
 // Prepare the SQL query template
 if($stmt = $conn->prepare($sql)) {
-  // Bind parameters
-  $stmt->bind_param("sss", $idproduto, $nome_produto, $preco_produto, $foto_produto);
+    // i (inteiro), s (string/data), d (decimal/double), s (string)
+    $stmt->bind_param("isds", $idusuario, $data_pedido, $valor_total_pedido, $forma_pagamento);
 
-  // Set parameters and execute
-  $idproduto = 1;
-  $nome_produto = "Produto 1";
-  $preco_produto = 100.00;
-  $foto_produto = "foto1.jpg";
-  $stmt->execute();
+    // Set parameters and execute
+    $idusuario = 1;
+    $data_pedido = "2023-01-01";
+    $valor_total_pedido = 100.00;
+    $forma_pagamento = "john@example.com";
+    $stmt->execute();
 
-  $idproduto = 2;
-  $nome_produto = "Produto 2";
-  $preco_produto = 200.00;
-  $foto_produto = "foto2.jpg";
-  $stmt->execute();
+    $idusuario = 2;
+    $data_pedido = "2023-01-02";
+    $valor_total_pedido = 200.00;
+    $forma_pagamento = "mary@example.com";
+    $stmt->execute();
 
-  $idproduto = 3;
-  $nome_produto = "Produto 3";
-  $preco_produto = 300.00;
-  $foto_produto = "foto3.jpg";
-  $stmt->execute();
+    $idusuario = 3;
+    $data_pedido = "2023-01-03";
+    $valor_total_pedido = 300.00;
+    $forma_pagamento = "julie@example.com";
+    $stmt->execute();
  
-  echo "Sucesso!";
+    echo "Sucesso nos pedidos!<br>";
 } else {
-  echo "Erro: " . $sql . "<br>" . $conn->error;
+    echo "Erro: " . $sql . "<br>" . $conn->error;
 }
-$sql = "INSERT INTO contem (pedido_idpedido, produto_idproduto, quantidade_contem) VALUES (?, ?)";
+$sql = "INSERT INTO produto (nome_produto, preco_produto, foto_produto) VALUES (?, ?, ?)";
+
+if($stmt = $conn->prepare($sql)) {
+    // s (string para nome), d (double para preco), s (string para foto)
+    $stmt->bind_param("sds", $nome_produto, $preco_produto, $foto_produto);
+
+    // Registo 1
+    $nome_produto = "Produto 1";
+    $preco_produto = 100.00;
+    $foto_produto = "foto1.jpg";
+    $stmt->execute();
+
+    // Registo 2
+    $nome_produto = "Produto 2";
+    $preco_produto = 200.00;
+    $foto_produto = "foto2.jpg";
+    $stmt->execute();
+
+    // Registo 3
+    $nome_produto = "Produto 3";
+    $preco_produto = 300.00;
+    $foto_produto = "foto3.jpg";
+    $stmt->execute();
+    
+    echo "Sucesso nos produtos!<br>";
+    $stmt->close();
+} else {
+    echo "Erro (Produto): " . $conn->error . "<br>";
+}
+$sql = "INSERT INTO contem (pedido_idpedido, produto_idproduto, quantidade_contem) VALUES (?, ?, ?)";
 
 // Prepare the SQL query template
 if($stmt = $conn->prepare($sql)) {
