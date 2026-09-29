@@ -101,30 +101,24 @@ if($stmt = $conn->prepare($sql)) {
 } else {
     echo "Erro (Produto): " . $conn->error . "<br>";
 }
-$sql = "INSERT INTO contem (pedido_idpedido, produto_idproduto, quantidade_contem) VALUES (?, ?, ?)";
-
-// Prepare the SQL query template
+$sql = "INSERT IGNORE INTO contem (pedido_idpedido, produto_idproduto, quantidade_contem) VALUES (?, ?, ?)";
 if($stmt = $conn->prepare($sql)) {
-  // Bind parameters
-  $stmt->bind_param("sss",$pedido_idpedido, $produto_idproduto, $quantidade_contem);
+    $stmt->bind_param("iii", $pedido_idpedido, $produto_idproduto, $quantidade_contem);
 
-  // Set parameters and execute
-  $pedido_idpedido = 1;
-  $produto_idproduto = 1;
-  $quantidade_contem = 2;
-  $stmt->execute();
-
-  $pedido_idpedido = 2;
-  $produto_idproduto = 2;
-  $quantidade_contem = 3;
-  $stmt->execute();
-
-  $pedido_idpedido = 3;
-  $produto_idproduto = 3;
-  $quantidade_contem = 1;
-  $stmt->execute();
- 
-  echo "Sucesso!";
+    $pedido_idpedido = 1; 
+      $produto_idproduto = 1; 
+       $quantidade_contem = 2; 
+        $stmt->execute();
+    $pedido_idpedido = 2; 
+      $produto_idproduto = 2; 
+       $quantidade_contem = 3; 
+        $stmt->execute();
+    $pedido_idpedido = 3; 
+      $produto_idproduto = 3; 
+       $quantidade_contem = 1; 
+        $stmt->execute();
+    
+    echo "Tabela  processada com sucesso!<br>";
 } else {
   echo "Erro: " . $sql . "<br>" . $conn->error;
 }
