@@ -20,8 +20,11 @@ if($stmt = $conn->prepare($sql)) {
   // Bind parameters
   $stmt->bind_param("sss",  $nome_usuario, $senha_usuario, $email_usuario);
 
+  $nome_usuario = ["$nome_usuario"];
+  $senha_usuario = ["$senha_usuario"];
+  $email_usuario = ["$email_usuario"];
   // Set parameters and execute
-
+/*
   $nome_usuario = "John";
   $senha_usuario = "password123";
   $email_usuario = "john@example.com";
@@ -37,7 +40,7 @@ if($stmt = $conn->prepare($sql)) {
   $nome_usuario = "Julie";
   $senha_usuario = "password789";
   $email_usuario = "julie@example.com";
-  $stmt->execute();
+  $stmt->execute();*/
   echo "Sucesso! Novos registros criados com sucesso.";
 } else {
   echo "Erro: " . $sql . "<br>" . $conn->error;
@@ -47,10 +50,14 @@ $sql = "INSERT INTO pedido (usuario_idusuario, data_pedido, valor_total_pedido, 
 // Prepare the SQL query template
 if($stmt = $conn->prepare($sql)) {
     // i (inteiro), s (string/data), d (decimal/double), s (string)
-    $stmt->bind_param("isds", $idusuario, $data_pedido, $valor_total_pedido, $forma_pagamento);
+    $stmt->bind_param("isds", $idusuario, $data_pedido, $valor_total_pedido, $forma_pagamento); 
+
+    $data_pedido = ["$data_pedido"];
+    $valor_total_pedido = ["$valor_total_pedido"];
+    $forma_pagamento = ["$forma_pagamento"];
 
     // Set parameters and execute
-    $idusuario = 1;
+    /*$idusuario = 1;
     $data_pedido = "2023-01-01";
     $valor_total_pedido = 100.00;
     $forma_pagamento = "john@example.com";
@@ -66,7 +73,7 @@ if($stmt = $conn->prepare($sql)) {
     $data_pedido = "2023-01-03";
     $valor_total_pedido = 300.00;
     $forma_pagamento = "julie@example.com";
-    $stmt->execute();
+    $stmt->execute();*/
  
     echo "Sucesso nos pedidos!<br>";
 } else {
@@ -77,8 +84,11 @@ $sql = "INSERT INTO produto (nome_produto, preco_produto, foto_produto) VALUES (
 if($stmt = $conn->prepare($sql)) {
     // s (string para nome), d (double para preco), s (string para foto)
     $stmt->bind_param("sds", $nome_produto, $preco_produto, $foto_produto);
+    $nome_produto = ["$nome_produto"];
+    $preco_produto = ["$preco_produto"];
+    $foto_produto = ["$foto_produto"];
 
-    // Registo 1
+   /* // Registo 1
     $nome_produto = "Produto 1";
     $preco_produto = 100.00;
     $foto_produto = "foto1.jpg";
@@ -94,7 +104,7 @@ if($stmt = $conn->prepare($sql)) {
     $nome_produto = "Produto 3";
     $preco_produto = 300.00;
     $foto_produto = "foto3.jpg";
-    $stmt->execute();
+    $stmt->execute();*/
     
     echo "Sucesso nos produtos!<br>";
     $stmt->close();
@@ -104,8 +114,10 @@ if($stmt = $conn->prepare($sql)) {
 $sql = "INSERT IGNORE INTO contem (pedido_idpedido, produto_idproduto, quantidade_contem) VALUES (?, ?, ?)";
 if($stmt = $conn->prepare($sql)) {
     $stmt->bind_param("iii", $pedido_idpedido, $produto_idproduto, $quantidade_contem);
+    $quantidade_contem = ["$quantidade_contem"];
+    
 
-    $pedido_idpedido = 1; 
+   /* $pedido_idpedido = 1; 
       $produto_idproduto = 1; 
        $quantidade_contem = 2; 
         $stmt->execute();
@@ -116,7 +128,7 @@ if($stmt = $conn->prepare($sql)) {
     $pedido_idpedido = 3; 
       $produto_idproduto = 3; 
        $quantidade_contem = 1; 
-        $stmt->execute();
+        $stmt->execute();*/
     
     echo "Tabela  processada com sucesso!<br>";
 } else {
